@@ -1,0 +1,47 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+
+  "functions": {
+    "app/api/build/route.ts": {
+      "maxDuration": 30,
+      "memory": 512
+    },
+    "app/api/status/[id]/route.ts": {
+      "maxDuration": 25,
+      "memory": 256
+    },
+    "app/api/download/[id]/route.ts": {
+      "maxDuration": 25,
+      "memory": 512
+    },
+    "app/api/analyze/route.ts": {
+      "maxDuration": 25,
+      "memory": 512
+    },
+    "app/api/health/route.ts": {
+      "maxDuration": 10,
+      "memory": 128
+    }
+  },
+
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options",         "value": "DENY" },
+        { "key": "Cache-Control",            "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-DNS-Prefetch-Control", "value": "off" },
+        { "key": "Referrer-Policy",        "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}
