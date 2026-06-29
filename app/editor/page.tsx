@@ -130,8 +130,8 @@ export default function EditorPage() {
                   <div key={key}>
                     <label className="block text-xs font-medium text-[var(--text-muted)] mb-2">{label}</label>
                     <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-[var(--border)] rounded-xl p-6 cursor-pointer hover:border-[var(--primary)]/40 transition-colors">
-                      {(config as Record<string, unknown>)[key] ? (
-                        <img src={String((config as Record<string, unknown>)[key])} className="w-16 h-16 rounded-xl object-contain" alt={label} />
+                      {(config as unknown as Record<string, unknown>)[key] ? (
+                        <img src={String((config as unknown as Record<string, unknown>)[key])} className="w-16 h-16 rounded-xl object-contain" alt={label} />
                       ) : (
                         <>
                           <Upload size={20} className="text-[var(--text-subtle)]" />
