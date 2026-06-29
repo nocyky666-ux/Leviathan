@@ -54,7 +54,7 @@ export async function GET(
       } catch {}
     })
 
-    return new NextResponse(buffer, {
+    return new NextResponse(new Uint8Array(buffer), {
       headers: {
         'Content-Type':        'application/zip',
         'Content-Disposition': `attachment; filename="${filename}"`,
