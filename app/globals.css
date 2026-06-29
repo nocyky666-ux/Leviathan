@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────
+   DESIGN TOKENS
+───────────────────────────────────────────────────────────── */
+:root {
+  /* Light */
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --card: #F4F4F5;
+  --border: #E4E4E7;
+  --text: #09090B;
+  --text-muted: #71717A;
+  --text-subtle: #A1A1AA;
+
+  /* Brand */
+  --primary: #5B5BD6;
+  --secondary: #6E6EE8;
+  --accent: #7C8CFF;
+  --success: #10B981;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255,255,255,0.72);
+  --glass-border: rgba(0,0,0,0.06);
+  --glass-shadow: 0 8px 30px rgba(0,0,0,0.06);
+
+  /* Neumorphism (light) */
+  --neu-shadow: 6px 6px 14px #D9D9E0, -6px -6px 14px #FFFFFF;
+  --neu-shadow-inset: inset 4px 4px 8px #D9D9E0, inset -4px -4px 8px #FFFFFF;
+
+  /* Sidebar width */
+  --sidebar-w: 240px;
+  --sidebar-collapsed-w: 64px;
+}
+
+.dark {
+  --bg: #09090B;
+  --surface: #111827;
+  --card: #18181B;
+  --border: #27272A;
+  --text: #FAFAFA;
+  --text-muted: #A1A1AA;
+  --text-subtle: #52525B;
+
+  --glass-bg: rgba(17,24,39,0.8);
+  --glass-border: rgba(255,255,255,0.06);
+  --glass-shadow: 0 8px 30px rgba(0,0,0,0.3);
+
+  --neu-shadow: 6px 6px 14px rgba(0,0,0,0.5), -6px -6px 14px rgba(255,255,255,0.03);
+  --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.4), inset -4px -4px 8px rgba(255,255,255,0.03);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BASE RESET
+───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   GLASS CARD
+───────────────────────────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NEUMORPHISM
+───────────────────────────────────────────────────────────── */
+.neu {
+  background: var(--surface);
+  box-shadow: var(--neu-shadow);
+  border-radius: 12px;
+}
+
+.neu-inset {
+  background: var(--card);
+  box-shadow: var(--neu-shadow-inset);
+  border-radius: 8px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-subtle); }
+
+/* ─────────────────────────────────────────────────────────────
+   SKELETON LOADING
+───────────────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--card) 25%,
+    var(--border) 50%,
+    var(--card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TERMINAL / LOGS
+───────────────────────────────────────────────────────────── */
+.terminal {
+  font-family: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  background: #0A0A0F;
+  color: #E5E7EB;
+  border-radius: 12px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.terminal .log-success { color: #10B981; }
+.terminal .log-error   { color: #EF4444; }
+.terminal .log-warn    { color: #F59E0B; }
+.terminal .log-info    { color: #7C8CFF; }
+.terminal .log-dim     { color: #6B7280; }
+
+/* ─────────────────────────────────────────────────────────────
+   BRAND GRADIENT TEXT
+───────────────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #5B5BD6 0%, #7C8CFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   STATUS INDICATORS
+───────────────────────────────────────────────────────────── */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-dot.pending   { background: var(--text-subtle); }
+.status-dot.queued    { background: var(--warning); animation: pulse 2s infinite; }
+.status-dot.running   { background: var(--primary); animation: pulse 1s infinite; }
+.status-dot.success   { background: var(--success); }
+.status-dot.failed    { background: var(--danger); }
+.status-dot.cancelled { background: var(--text-subtle); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HIDE SCROLLBAR UTILITY
+───────────────────────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─────────────────────────────────────────────────────────────
+   FOCUS RING
+───────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   REDUCED MOTION
+───────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
