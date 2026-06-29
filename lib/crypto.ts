@@ -7,7 +7,7 @@
 const ALG = 'AES-GCM'
 const KEY_LENGTH = 256
 
-function hexToBuffer(hex: string): Uint8Array {
+function hexToBuffer(hex: string): Uint8Array<ArrayBuffer> {
   const bytes = new Uint8Array(hex.length / 2)
   for (let i = 0; i < hex.length; i += 2) {
     bytes[i / 2] = parseInt(hex.slice(i, i + 2), 16)
@@ -15,17 +15,19 @@ function hexToBuffer(hex: string): Uint8Array {
   return bytes
 }
 
-function bufferToHex(buf: ArrayBuffer): string {
-  return Array.from(new Uint8Array(buf))
+function bufferToHex(buf: ArrayBuffer | Uint8Array<ArrayBufferLike>): string {
+  const arr = buf instanceof Uint8Array ? buf : new Uint8Array(buf)
+  return Array.from(arr)
     .map(b => b.toString(16).padStart(2, '0'))
     .join('')
 }
 
-function bufferToBase64(buf: ArrayBuffer): string {
-  return Buffer.from(buf).toString('base64url')
+function bufferToBase64(buf: ArrayBuffer | Uint8Array<ArrayBufferLike>): string {
+  const arr = buf instanceof Uint8Array ? buf : new Uint8Array(buf)
+  return Buffer.from(arr).toString('base64url')
 }
 
-function base64ToBuffer(b64: string): Uint8Array {
+function base64ToBuffer(b64: string): Uint8Array<ArrayBuffer> {
   return new Uint8Array(Buffer.from(b64, 'base64url'))
 }
 
@@ -44,7 +46,7 @@ async function getKey(): Promise<CryptoKey> {
  */
 export async function encrypt(plaintext: string): Promise<string> {
   const key = await getKey()
-  const iv = crypto.getRandomValues(new Uint8Array(12))
+  const iv = crypto.getRandomValues(new Uint8Array(12)) as Uint8Array<ArrayBuffer>
   const encoded = new TextEncoder().encode(plaintext)
   const cipherBuf = await crypto.subtle.encrypt({ name: ALG, iv }, key, encoded)
   return `${bufferToBase64(iv)}.${bufferToBase64(cipherBuf)}`
@@ -67,7 +69,7 @@ export async function decrypt(payload: string): Promise<string> {
  * Generate a secure random session ID (URL-safe, 32 chars).
  */
 export function generateSessionId(): string {
-  const bytes = crypto.getRandomValues(new Uint8Array(24))
+  const bytes = crypto.getRandomValues(new Uint8Array(24)) as Uint8Array<ArrayBuffer>
   return bufferToBase64(bytes).replace(/[^a-zA-Z0-9]/g, '').slice(0, 32)
 }
 
@@ -75,7 +77,7 @@ export function generateSessionId(): string {
  * Generate a secure random build ID.
  */
 export function generateBuildId(): string {
-  const bytes = crypto.getRandomValues(new Uint8Array(16))
+  const bytes = crypto.getRandomValues(new Uint8Array(16)) as Uint8Array<ArrayBuffer>
   return `bld_${bufferToHex(bytes)}`
 }
 
